@@ -8,6 +8,8 @@
 
 #include "window.hpp"
 
+#include "raylib.h"
+
 Camera3D LonginusWindow::Viewport = {0};
 
 Color LonginusWindow::VoidColour = BLACK;

@@ -6,6 +6,14 @@
 
 #include "assets.hpp"
 
+#include "raylib.h"
+#include "window.hpp"
+
+#include <map>
+#include <string>
+#include <iostream>
+#include <fstream>
+
 int LonginusAssets::TextureAssetCounter = 0;
 
 /*Adds Texture2D to texture map, increases texture counter.

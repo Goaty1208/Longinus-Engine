@@ -7,14 +7,6 @@
 #ifndef ASSETS_HPP
 #define ASSETS_HPP
 
-#include "raylib.h"
-#include "window.hpp"
-
-#include <map>
-#include <string>
-#include <iostream>
-#include <fstream>
-
 namespace LonginusAssets {
     
     /*Texture asset. InternalID is what determines the loading order.*/
