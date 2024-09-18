@@ -8,25 +8,34 @@
 #define ASSETS_HPP
 
 #include "raylib.h"
+#include "window.hpp"
+
 #include <map>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 namespace LonginusAssets {
     
     /*Texture asset. InternalID is what determines the loading order.*/
     struct TextureAsset {
-        const char* Name;
-        const int InternalID;
+        std::string Name;
+        int InternalID;
         Texture2D Texture;
+        
+        bool operator<(const LonginusAssets::TextureAsset& asset) const {
+            return this->InternalID < asset.InternalID;
+        }
 
         bool operator>(const LonginusAssets::TextureAsset& asset) {
             return this->InternalID > asset.InternalID;
         }
     };
     
-    static int TextureAssetCounter = 0;
+    extern int TextureAssetCounter;
     static std::map<LonginusAssets::TextureAsset, int> CurrentGameTextures;
 
-    bool AddAsset(const char* fileName);
+    bool AddAsset(LonginusAssets::TextureAsset asset);
     void LoadAssetTextures();
 
 } // namespace LonginusAssets
