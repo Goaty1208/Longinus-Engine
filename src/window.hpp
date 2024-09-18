@@ -10,8 +10,6 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-#include "raylib.h"
-
 /*namespace LonginusWindow*/ 
 namespace LonginusWindow {
 
@@ -22,7 +20,7 @@ namespace LonginusWindow {
     extern Color VoidColour;
 
     /*Current working directory. Fundamental.*/
-    const char* CurrentDir;
+    extern const char* CurrentDir;
 
     /*Opens a Raylib window, inits sound, gets current directory.*/
     bool Init(int width, int height, const char* title);

@@ -12,7 +12,7 @@
 *
 ********************************************************************************************/
 
-#include "window.hpp"
+#include "assets.hpp"
 #include <iostream>
 
 //----------------------------------------------------------------------------------
@@ -20,12 +20,16 @@
 //----------------------------------------------------------------------------------
 int main() {
 
-    LonginusWindow::Init(800, 800, "Hello!");
+    LonginusWindow::Init(0, 0, "test");
 
-    while (!WindowShouldClose()) {
-        LonginusWindow::ProcessFrame();
-    }
-    
+    LonginusAssets::AddAsset({"jim0.png"});
+    LonginusAssets::AddAsset({"jim1.png"});
+    LonginusAssets::AddAsset({"jim2.png"});
+    LonginusAssets::AddAsset({"jim3.png"});
+    LonginusAssets::AddAsset({"jim4.png"});
+    LonginusAssets::AddAsset({"jim5.png"});
+
+    LonginusAssets::LoadAssetTextures();
 
     return 0;
 }
