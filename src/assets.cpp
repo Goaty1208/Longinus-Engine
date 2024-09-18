@@ -45,7 +45,7 @@ void LonginusAssets::LoadAssetTextures() {
       }
 
       std::string fileLocationit(it->first.Name);
-      fileLocationit.insert(0, "");
+      fileLocationit.insert(0, "/textures/");
       fileLocationit.insert(0, LonginusWindow::CurrentDir);
 
       std::cout << fileLocationit << "\n";
