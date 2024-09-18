@@ -10,6 +10,8 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
+#include "raylib.h"
+
 /*namespace LonginusWindow*/ 
 namespace LonginusWindow {
 
