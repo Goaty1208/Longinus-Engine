@@ -12,16 +12,16 @@ Camera3D LonginusWindow::Viewport = {0};
 
 Color LonginusWindow::VoidColour = BLACK;
 Texture2D LonginusWindow::nano;
-const char* LonginusWindow::CurrentDir;
+std::string LonginusWindow::CurrentDir;
 
 bool LonginusWindow::Init(int width, int height, const char* title) {
 
     InitWindow(width, height, title);
     InitAudioDevice();
 
-    const char* CurrentDir = GetWorkingDirectory();
+    std::string CurrentDir = GetWorkingDirectory();
 
-    if(DirectoryExists(CurrentDir))
+    if(DirectoryExists(CurrentDir.c_str()))
         LonginusWindow::CurrentDir = CurrentDir; 
 
     return IsWindowReady();    

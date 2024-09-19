@@ -11,9 +11,9 @@
 #include "window.hpp"
 
 #include <map>
-#include <string>
 #include <iostream>
 #include <fstream>
+#include <string>
 
 namespace LonginusAssets {
     
@@ -30,14 +30,22 @@ namespace LonginusAssets {
         bool operator>(const LonginusAssets::TextureAsset& asset) {
             return this->InternalID > asset.InternalID;
         }
+
+        TextureAsset(std::string name) : InternalID(0) {
+            this->Name = name;
+        }
     };
     
+    /*TEXTURE ASSETS------------*/
+    extern std::fstream TextureDotA;
     extern int TextureAssetCounter;
     static std::map<LonginusAssets::TextureAsset, int> CurrentGameTextures;
-
     bool AddAsset(LonginusAssets::TextureAsset asset);
-    void LoadAssetTextures();
+    /*--------------------------*/
 
+    void ParseAssetFiles();
+
+    void LoadAssets();
 } // namespace LonginusAssets
 
 

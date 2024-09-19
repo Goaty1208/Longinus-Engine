@@ -22,14 +22,8 @@ int main() {
 
     LonginusWindow::Init(0, 0, "test");
 
-    LonginusAssets::AddAsset({"jim0.png"});
-    LonginusAssets::AddAsset({"jim1.png"});
-    LonginusAssets::AddAsset({"jim2.png"});
-    LonginusAssets::AddAsset({"jim3.png"});
-    LonginusAssets::AddAsset({"jim4.png"});
-    LonginusAssets::AddAsset({"jim5.png"});
-
-    LonginusAssets::LoadAssetTextures();
+    LonginusAssets::ParseAssetFiles();
+    LonginusAssets::LoadAssets();
 
     return 0;
 }
