@@ -31,9 +31,12 @@ namespace LonginusAssets {
             return this->InternalID > asset.InternalID;
         }
 
-        TextureAsset(std::string name) : InternalID(0) {
-            this->Name = name;
-        }
+        // Default constructor
+        TextureAsset() : InternalID(0), Name(""), Texture() {}
+
+        // Constructor with name argument
+        TextureAsset(std::string name) : InternalID(0), Name(name), Texture() {}
+    
     };
     
     /*TEXTURE ASSETS------------*/
