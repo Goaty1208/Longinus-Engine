@@ -57,24 +57,24 @@ void LonginusAssets::LoadAssets() {
 
     while(it != LonginusAssets::CurrentGameTextures.end()){    
 
-      if (it->second.Name.empty()) {
-        std::cerr << "Error: TextureAsset" << it->second.InternalID << "Name is null!" << std::endl;
+        if (it->second.Name.empty()) {
+            std::cerr << "Error: TextureAsset" << it->second.InternalID << "Name is null!" << std::endl;
+            it++;
+            continue;  // Skip this entry if the name is null
+        }
+
+        if (LonginusWindow::CurrentDir.empty()) {
+            std::cerr << "Error: LonginusWindow::CurrentDir is null!" << std::endl;
+            return;  // Or handle the error appropriately
+        }
+
+        std::string fileLocationit(it->second.Name);
+
+        std::cout << fileLocationit << std::endl;
+
+        it->second.Texture = LoadTexture(fileLocationit.c_str());
+
         it++;
-        continue;  // Skip this entry if the name is null
-      }
-
-      if (LonginusWindow::CurrentDir.empty()) {
-        std::cerr << "Error: LonginusWindow::CurrentDir is null!" << std::endl;
-        return;  // Or handle the error appropriately
-      }
-
-      std::string fileLocationit(it->second.Name);
-      fileLocationit.insert(0, "/textures/");
-      fileLocationit.insert(0, LonginusWindow::CurrentDir);
-
-      it->second.Texture = LoadTexture(fileLocationit.c_str());
-
-      it++;
     }
 
 } 
