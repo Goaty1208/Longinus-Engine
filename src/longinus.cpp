@@ -20,15 +20,15 @@
 //----------------------------------------------------------------------------------
 int main() {
 
-    LonginusWindow::Init(0, 0, "test");
+    LonginusWindow::Init(500, 500, "test");
 
     LonginusAssets::ParseAssetFiles();
     LonginusAssets::LoadAssets();
+    std::cout << "Textures loaded: " << LonginusAssets::CurrentGameTextures.size() << std::endl;
 
     while (!WindowShouldClose()) {
-        
+        LonginusWindow::ProcessFrame();
     }
     
-
     return 0;
 }

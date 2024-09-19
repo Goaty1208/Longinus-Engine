@@ -32,7 +32,7 @@ namespace LonginusAssets {
         }
 
         // Default constructor
-        TextureAsset() : InternalID(0), Name(""), Texture() {}
+        TextureAsset() : InternalID(0), Name("INVALID"), Texture() {}
 
         // Constructor with name argument
         TextureAsset(std::string name) : InternalID(0), Name(name), Texture() {}
@@ -42,7 +42,7 @@ namespace LonginusAssets {
     /*TEXTURE ASSETS------------*/
     extern std::fstream TextureDotA;
     extern int TextureAssetCounter;
-    static std::map<int, LonginusAssets::TextureAsset> CurrentGameTextures;
+    extern std::map<int, LonginusAssets::TextureAsset> CurrentGameTextures;
     bool AddAsset(LonginusAssets::TextureAsset asset);
     /*--------------------------*/
 

@@ -7,6 +7,7 @@
 #include "assets.hpp"
 
 int LonginusAssets::TextureAssetCounter = 0;
+std::map<int, LonginusAssets::TextureAsset> LonginusAssets::CurrentGameTextures;
 
 void LonginusAssets::ParseAssetFiles() {
 
@@ -45,6 +46,7 @@ bool LonginusAssets::AddAsset(LonginusAssets::TextureAsset asset) {
     asset.InternalID = LonginusAssets::TextureAssetCounter;
 
     LonginusAssets::CurrentGameTextures[LonginusAssets::TextureAssetCounter] = asset;
+    std::clog << "Loaded " << LonginusAssets::CurrentGameTextures[LonginusAssets::TextureAssetCounter].Name << " as " << LonginusAssets::CurrentGameTextures[LonginusAssets::TextureAssetCounter].InternalID << std::endl;
     LonginusAssets::TextureAssetCounter++;
 
     return true;
@@ -70,11 +72,9 @@ void LonginusAssets::LoadAssets() {
 
         std::string fileLocationit(it->second.Name);
 
-        std::cout << fileLocationit << std::endl;
-
         it->second.Texture = LoadTexture(fileLocationit.c_str());
 
         it++;
     }
-
+    std::cout << "Textures loaded: " << LonginusAssets::CurrentGameTextures.size() << std::endl;
 } 

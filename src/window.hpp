@@ -12,6 +12,7 @@
 
 #include "raylib.h"
 #include <string>
+#include "assets.hpp"
 
 /*namespace LonginusWindow*/ 
 namespace LonginusWindow {

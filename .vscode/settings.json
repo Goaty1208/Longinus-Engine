@@ -2,7 +2,8 @@
     "files.associations": {
         "iostream": "cpp",
         "*.tcc": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "*.m": "cpp"
     },
     "editor.tabCompletion": "off",
     "editor.detectIndentation": false
