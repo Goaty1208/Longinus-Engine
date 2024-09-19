@@ -25,5 +25,10 @@ int main() {
     LonginusAssets::ParseAssetFiles();
     LonginusAssets::LoadAssets();
 
+    while (!WindowShouldClose()) {
+        
+    }
+    
+
     return 0;
 }
