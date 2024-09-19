@@ -39,7 +39,7 @@ namespace LonginusAssets {
     /*TEXTURE ASSETS------------*/
     extern std::fstream TextureDotA;
     extern int TextureAssetCounter;
-    static std::map<LonginusAssets::TextureAsset, int> CurrentGameTextures;
+    static std::map<int, LonginusAssets::TextureAsset> CurrentGameTextures;
     bool AddAsset(LonginusAssets::TextureAsset asset);
     /*--------------------------*/
 
