@@ -7,8 +7,10 @@
 
 #pragma once
 
-#include "assets.hpp"
 #include "raylib.h"
+#include "assets.hpp"
+
+#include <vector>
 
 namespace LonginusSprites {
     
@@ -21,5 +23,9 @@ namespace LonginusSprites {
         /*Not that the program would run with zero assets anyways*/
         Sprite2D() :Texture(LonginusAssets::CurrentGameTextures[0]), Position({.0f,.0f}){};
     };
+
+    extern std::vector<LonginusSprites::Sprite2D> SpriteQueue;
+
+    void CreateSprite(LonginusSprites::Sprite2D Sprite);
 
 } // namespace LonginusSprites

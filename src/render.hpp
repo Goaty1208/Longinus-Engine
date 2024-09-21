@@ -7,12 +7,14 @@
 #pragma once
 
 #include "raylib.h"
-
-#include <vector>
+#include "sprites.hpp"
 
 namespace LonginusRender {
 
-    std::vector<Texture2D> TextureQueue;
-    std::vector<Mesh> TextureQueue;
-    
+    extern std::vector<Mesh> TextureQueue;
+
+    extern Color CurrentTint;
+
+    void RenderSpriteQueue();
+
 } // namespace LonginusRender
