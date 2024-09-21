@@ -3,9 +3,7 @@
 *   assets.hpp   
 *
 *******************************************************************************************/
-
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#pragma once
 
 #include "raylib.h"
 #include "window.hpp"
@@ -50,6 +48,3 @@ namespace LonginusAssets {
 
     void LoadAssets();
 } // namespace LonginusAssets
-
-
-#endif

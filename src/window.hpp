@@ -7,8 +7,7 @@
 *
 *******************************************************************************************/
 
-#ifndef WINDOW_HPP
-#define WINDOW_HPP
+#pragma once
 
 #include "raylib.h"
 #include <string>
@@ -33,6 +32,3 @@ namespace LonginusWindow {
     
     extern Texture2D nano;
 }
-
-
-#endif
