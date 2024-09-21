@@ -47,4 +47,5 @@ namespace LonginusAssets {
     void ParseAssetFiles();
 
     void LoadAssets();
+    void UnloadAssets();
 } // namespace LonginusAssets

@@ -29,7 +29,5 @@ namespace LonginusWindow {
     /*Opens a Raylib window, inits sound, gets current directory.*/
     bool Init(int width, int height, const char* title);
     bool ProcessFrame();
-    bool Close();
-    
-    extern Texture2D nano;
+    void Close();
 }

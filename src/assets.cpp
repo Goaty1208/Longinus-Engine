@@ -78,3 +78,15 @@ void LonginusAssets::LoadAssets() {
     }
     std::cout << "Textures loaded: " << LonginusAssets::CurrentGameTextures.size() << std::endl;
 } 
+
+void LonginusAssets::UnloadAssets() {
+
+    auto it = LonginusAssets::CurrentGameTextures.begin();
+
+    while (it != LonginusAssets::CurrentGameTextures.end()) {
+        UnloadTexture(it->second.Texture);
+        
+        it++;
+    }    
+
+}

@@ -11,7 +11,6 @@
 Camera3D LonginusWindow::Viewport = {0};
 
 Color LonginusWindow::VoidColour = BLACK;
-Texture2D LonginusWindow::nano;
 std::string LonginusWindow::CurrentDir;
 
 bool LonginusWindow::Init(int width, int height, const char* title) {
@@ -48,4 +47,9 @@ bool LonginusWindow::ProcessFrame() {
     EndDrawing();
 
     return true;
+}
+
+void LonginusWindow::Close() {
+    LonginusAssets::UnloadAssets() ;
+    CloseWindow();
 }

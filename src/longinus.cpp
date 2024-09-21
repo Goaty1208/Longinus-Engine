@@ -26,7 +26,7 @@ int main() {
         LonginusWindow::ProcessFrame();
     }
 
-    CloseWindow();
-    
+    LonginusWindow::Close();
+        
     return 0;
 }
