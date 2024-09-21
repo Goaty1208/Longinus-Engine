@@ -10,8 +10,9 @@
 #pragma once
 
 #include "raylib.h"
-#include <string>
 #include "assets.hpp"
+
+#include <string>
 
 /*namespace LonginusWindow*/ 
 namespace LonginusWindow {
