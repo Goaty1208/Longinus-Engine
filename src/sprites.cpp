@@ -6,8 +6,10 @@
 *******************************************************************************************/
 #include "sprites.hpp"
 
-void LonginusSprites::CreateSprite(LonginusSprites::Sprite2D Sprite) {
+uint LonginusSprites::SpriteCounter = 0;
 
-    LonginusAssets::CurrentGameTextures[]
+void LonginusSprites::CreateSprite(int ID, Vector2 position) {
 
+    LonginusSprites::Sprites[LonginusSprites::SpriteCounter] = {LonginusSprites::SpriteCounter, ID, position};
+    LonginusSprites::SpriteCounter++;
 }

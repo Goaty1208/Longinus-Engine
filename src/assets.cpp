@@ -32,6 +32,8 @@ void LonginusAssets::ParseAssetFiles() {
     } else {
         std::cerr << "Couldn't load texture asset file!" << std::endl;
     }
+
+    CurrentAssetFile.close();
 }
 
 
