@@ -18,7 +18,7 @@ namespace LonginusSprites {
     
     struct Sprite2D {
         u_int8_t ID;
-        LonginusAssets::TextureAsset& Texture;
+        LonginusAssets::TextureAsset Texture;
         /*Since 2D textures are, well, 2D it's not stupid to assume that
           their position on screen will ALSO be 2D.*/
         Vector2 Position;
