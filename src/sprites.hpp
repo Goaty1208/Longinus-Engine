@@ -12,29 +12,26 @@
 #include "render.hpp"
 
 #include <vector>
-#include <functional>
+#include <map>
 
 namespace LonginusSprites {
     
     struct Sprite2D {
-        u_int8_t ID;
+        int ID;
         LonginusAssets::TextureAsset Texture;
         /*Since 2D textures are, well, 2D it's not stupid to assume that
           their position on screen will ALSO be 2D.*/
         Vector2 Position;
 
         /*Not that the program would run with zero assets anyways*/
-        Sprite2D(int ID, int TextureID, Vector2 position) :Texture(LonginusAssets::CurrentGameTextures[0]), Position({.0f,.0f}), ID(Texture.InternalID){
-            this->Texture = LonginusAssets::CurrentGameTextures[TextureID];
-            this->Position = position;
-            this->ID = ID;
-        };
+        Sprite2D(int ID, int TextureID, Vector2 position) : ID(ID), Texture(LonginusAssets::CurrentGameTextures[TextureID]), Position(position){};
+        Sprite2D() : ID(0), Texture(LonginusAssets::CurrentGameTextures[0]), Position({0, 0}) {};
     };
 
-    extern uint SpriteCounter;
-    extern Sprite2D* Sprites;
+    extern int SpriteCounter;
+    extern std::map<int, Sprite2D> Sprites;
     extern std::vector<Sprite2D> SpriteQueue;
 
-    void CreateSprite(Sprite2D Sprite);
+    void CreateSprite(int ID, Vector2 position);
 
 } // namespace LonginusSprites

@@ -11,6 +11,7 @@
 
 #include "raylib.h"
 #include "assets.hpp"
+#include "render.hpp"
 
 #include <string>
 

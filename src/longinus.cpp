@@ -22,6 +22,8 @@ int main() {
 
     LonginusWindow::Init(500, 500, "test");
 
+    LonginusSprites::CreateSprite(0 , {250, 250});
+
     while (!WindowShouldClose()) {
         LonginusWindow::ProcessFrame();
     }

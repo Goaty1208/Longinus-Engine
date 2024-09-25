@@ -37,7 +37,7 @@ bool LonginusWindow::ProcessFrame() {
     BeginDrawing();
     ClearBackground(LonginusWindow::VoidColour);
 
-    DrawTexture(LonginusAssets::CurrentGameTextures[0].Texture, 0, 0, WHITE);
+    LonginusRender::RenderSpriteQueue();
 
     /*Rendering of 3D objects starts here. Draw 3D stuff here. Or else, you can guess what will happen.*/
     BeginMode3D(LonginusWindow::Viewport);
