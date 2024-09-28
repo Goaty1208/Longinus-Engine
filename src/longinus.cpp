@@ -22,12 +22,14 @@ int main() {
 
     LonginusWindow::Init(500, 500, "test");
 
-    LonginusSprites::CreateSprite(0 , {250, 250});
+    LonginusAssets::ParseAssetFiles();
+    LonginusAssets::LoadAssets();
 
     while (!WindowShouldClose()) {
         LonginusWindow::ProcessFrame();
     }
 
+    LonginusAssets::UnloadAssets() ;
     LonginusWindow::Close();
         
     return 0;

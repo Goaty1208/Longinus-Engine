@@ -22,9 +22,6 @@ bool LonginusWindow::Init(int width, int height, const char* title) {
     std::string CurrentDir = GetWorkingDirectory();
     if(DirectoryExists(CurrentDir.c_str()))
         LonginusWindow::CurrentDir = CurrentDir; 
-
-    LonginusAssets::ParseAssetFiles();
-    LonginusAssets::LoadAssets();
     /*-------------------------------------------------*/
 
     return IsWindowReady();    
@@ -37,8 +34,6 @@ bool LonginusWindow::ProcessFrame() {
     BeginDrawing();
     ClearBackground(LonginusWindow::VoidColour);
 
-    LonginusRender::RenderSpriteQueue();
-
     /*Rendering of 3D objects starts here. Draw 3D stuff here. Or else, you can guess what will happen.*/
     BeginMode3D(LonginusWindow::Viewport);
 
@@ -50,6 +45,5 @@ bool LonginusWindow::ProcessFrame() {
 }
 
 void LonginusWindow::Close() {
-    LonginusAssets::UnloadAssets() ;
     CloseWindow();
 }
