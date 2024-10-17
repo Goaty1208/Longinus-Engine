@@ -4,8 +4,12 @@
         "*.tcc": "cpp",
         "ostream": "cpp",
         "*.m": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "vector": "cpp",
+        "fstream": "cpp",
+        "string": "cpp"
     },
     "editor.tabCompletion": "off",
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "C_Cpp.default.compilerPath": "/usr/bin/g++"
 }

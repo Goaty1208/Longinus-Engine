@@ -1,73 +1,72 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14)
+
 project(longinus)
 
-# Generate compile_commands.json
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# Dependencies
-set(RAYLIB_VERSION 5.0)
-find_package(raylib ${RAYLIB_VERSION} QUIET) # QUIET or REQUIRED
-if (NOT raylib_FOUND) # If there's none, fetch and build raylib
-  include(FetchContent)
-  FetchContent_Declare(
-    raylib
-    DOWNLOAD_EXTRACT_TIMESTAMP OFF
-    URL https://github.com/raysan5/raylib/archive/refs/tags/${RAYLIB_VERSION}.tar.gz
-  )
-  FetchContent_GetProperties(raylib)
-  if (NOT raylib_POPULATED) # Have we downloaded raylib yet?
-    set(FETCHCONTENT_QUIET NO)
-    FetchContent_Populate(raylib)
-    set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
-    add_subdirectory(${raylib_SOURCE_DIR} ${raylib_BINARY_DIR})
-  endif()
-endif()
-
-
-# Our Project
-# Include source files explicitly
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-
-# Add executable with source files
-add_executable(${PROJECT_NAME} ${SOURCES})
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
-
-set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${PROJECT_NAME}>)
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
-
-if ("${PLATFORM}" STREQUAL "Web")
-    add_custom_command(
-        TARGET ${PROJECT_NAME} PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/../resources
-    )
-    #DEPENDS ${PROJECT_NAME}
+# Detect the platform
+if (WIN32)
+    message(STATUS "Building for Windows")
+elseif(UNIX AND NOT APPLE)
+    message(STATUS "Building for Linux")
 else()
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources
+    message(FATAL_ERROR "Unsupported platform")
+endif()
+
+# Set SDL paths
+set(SDL_BUILD_DIR "${CMAKE_BINARY_DIR}/_deps/sdl-src")
+set(SDL_INSTALL_DIR "${CMAKE_BINARY_DIR}/_deps/sdl-install")
+
+# Check if SDL is already downloaded and built
+if (NOT EXISTS "${SDL_BUILD_DIR}/CMakeLists.txt" OR NOT EXISTS "${SDL_INSTALL_DIR}")
+    message(STATUS "SDL2 not found, downloading and building SDL2")
+
+    # Fetch SDL only if not already downloaded
+    include(FetchContent)
+    FetchContent_Declare(
+        SDL2
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+        GIT_TAG release-2.28.3 # Use the latest stable release or specify another tag
+        SOURCE_DIR ${SDL_BUILD_DIR}
     )
-    #DEPENDS ${PROJECT_NAME}
+    FetchContent_MakeAvailable(SDL2)
+
+    # Build SDL for Linux or Windows
+    if (WIN32)
+        message(STATUS "Building SDL2 for Windows")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} --build ${SDL_BUILD_DIR} --config Release
+            WORKING_DIRECTORY ${SDL_BUILD_DIR}/VisualC
+        )
+    elseif(UNIX)
+        message(STATUS "Building SDL2 for Linux")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -S ${SDL_BUILD_DIR} -B ${SDL_BUILD_DIR}/build -DCMAKE_INSTALL_PREFIX=${SDL_INSTALL_DIR}
+        )
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} --build ${SDL_BUILD_DIR}/build --target install
+        )
+    endif()
+else()
+    message(STATUS "SDL2 already exists, skipping download and build")
 endif()
 
-# Add compiler flags
-target_compile_options(${PROJECT_NAME} PRIVATE -Wwrite-strings)
-
-#set(raylib_VERBOSE 1)
-target_link_libraries(${PROJECT_NAME} raylib)
-
-# Web Configurations
-if ("${PLATFORM}" STREQUAL "Web")
-    # Tell Emscripten to build an example.html file.
-    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
-    target_link_options(${PROJECT_NAME} PUBLIC -sUSE_GLFW=3 PUBLIC --preload-file resources)
+# Set SDL include directories and libraries based on the platform
+if (WIN32)
+    set(SDL_INCLUDE_DIR "${SDL_BUILD_DIR}/include")
+    set(SDL_LIBRARY_DIR "${SDL_BUILD_DIR}/VisualC/Release") # Adjust for MSVC
+    set(SDL_LIBRARIES SDL2main SDL2)
+elseif(UNIX)
+    set(SDL_INCLUDE_DIR "${SDL_BUILD_DIR}/include")
+    set(SDL_LIBRARY_DIR "${SDL_INSTALL_DIR}/lib")
+    set(SDL_LIBRARIES SDL2)
 endif()
 
-# Checks if OSX and links appropriate frameworks (Only required on MacOS)
-if (APPLE)
-    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
-    target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
-    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
-endif()
+# Add your source files
+file(GLOB_RECURSE PROJECT_SOURCES "src/*.cpp")
+
+# Add executable
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+
+# Include SDL and link it to the executable
+target_include_directories(${PROJECT_NAME} PRIVATE ${SDL_INCLUDE_DIR})
+target_link_directories(${PROJECT_NAME} PRIVATE ${SDL_LIBRARY_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARIES})
