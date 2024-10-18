@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/build/_deps/"
+                "${workspaceFolder}/build/_deps/sdl-src"
             ],
             "defines": [],
             "cStandard": "c17",
