@@ -3,9 +3,7 @@
 #include <random>
 
 std::random_device seeder;
-
 std::mt19937 engine(seeder());
-
 std::uniform_int_distribution<int> dist(0, 255);
 
 struct Vector2D {
@@ -23,11 +21,11 @@ int main() {
     const int WINDOW_HEIGHT = 600;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        return 1;
         std::cout << "Initialization failed" << std::endl;
+        return 1;
     }
 
-    SDL_Window *window = SDL_CreateWindow("Practice making sdl Window",
+    SDL_Window *window = SDL_CreateWindow("Practice making SDL Window",
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH,
             WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
@@ -36,8 +34,10 @@ int main() {
         return 2;
     }
 
-    // We create a renderer with hardware acceleration, we also present according with the vertical sync refresh.
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) ;
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    // Create a texture that will hold the random pixel data
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     bool quit = false;
     SDL_Event event;
@@ -47,8 +47,10 @@ int main() {
     double delta = 0;
     int FPS;
 
-    while (!quit) {
+    // Array to hold pixel data
+    uint32_t *pixels = new uint32_t[WINDOW_WIDTH * WINDOW_HEIGHT];
 
+    while (!quit) {
         a = SDL_GetTicks();
 
         while (SDL_PollEvent(&event)) {
@@ -57,34 +59,41 @@ int main() {
             }
         }
 
+        // Fill the pixel array with random colors
+        for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; ++i) {
+            pixels[i] = (dist(engine) << 24) | (dist(engine) << 16) | (dist(engine) << 8) | 0xFF; // RGBA format
+        }
+
+        // Update the texture with the random pixel data
+        SDL_UpdateTexture(texture, NULL, pixels, WINDOW_WIDTH * sizeof(uint32_t));
+
+        // Clear the screen
         SDL_RenderClear(renderer);
 
-        for (size_t i = 0; i < WINDOW_WIDTH; i++) {
-            for (size_t j = 0; j < WINDOW_HEIGHT; j++){
-                SDL_SetRenderDrawColor(renderer, dist(engine), dist(engine), dist(engine), 0xFF);
-                SDL_RenderDrawPoint(renderer, i, j);
-            }      
-        }
-        
-        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+        // Render the texture to the screen
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
 
         SDL_RenderPresent(renderer);
 
-        delta += a - b;
+        b = SDL_GetTicks();
+        delta = b - a;
 
-        FPS = 1000/delta;
-
-        // Cap to 60 FPS
-	    SDL_Delay(floor(16.666f - (delta/SDL_GetPerformanceFrequency() * 1000)));
-
+        // Calculate FPS
+        FPS = 1000 / delta;
         std::cout << "FPS: " << FPS << std::endl;
 
-        b = SDL_GetTicks();
+        // Cap to 60 FPS
+        if (delta < 16.666f) {
+            SDL_Delay(16.666f - delta);
+        }
     }
 
-    SDL_DestroyWindow(window);
-    // We have to destroy the renderer, same as with the window.
+    // Cleanup
+    delete[] pixels;
+    SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 
+    return 0;
 }
