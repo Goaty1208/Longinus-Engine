@@ -1,10 +1,5 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <random>
-
-std::random_device seeder;
-std::mt19937 engine(seeder());
-std::uniform_int_distribution<int> dist(0, 255);
 
 struct Vector2D {
     int x;
@@ -16,9 +11,34 @@ struct particle {
     int type;
 };
 
+
+//xorshift.
+//Faster than any other rng.
+struct xorshift128_state {
+    uint32_t x[4];
+};
+
+/* The state must be initialized to non-zero */
+uint32_t xorshift128(struct xorshift128_state *state)
+{
+	/* Algorithm "xor128" from p. 5 of Marsaglia, "Xorshift RNGs" */
+	uint32_t t  = state->x[3];
+    
+    uint32_t s  = state->x[0];  /* Perform a contrived 32-bit shift. */
+	state->x[3] = state->x[2];
+	state->x[2] = state->x[1];
+	state->x[1] = s;
+
+	t ^= t << 11;
+	t ^= t >> 8;
+	return state->x[0] = t ^ s ^ (s >> 19);
+}
+
 int main() {
     const int WINDOW_WIDTH = 800;
     const int WINDOW_HEIGHT = 600;
+
+    xorshift128_state rngState;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "Initialization failed" << std::endl;
@@ -61,7 +81,7 @@ int main() {
 
         // Fill the pixel array with random colors
         for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; ++i) {
-            pixels[i] = (dist(engine) << 24) | (dist(engine) << 16) | (dist(engine) << 8) | 0xFF; // RGBA format
+            pixels[i] = (xorshift128(&rngState) % 255 << 24) | (xorshift128(&rngState) % 255 << 16) | (xorshift128(&rngState) % 255 << 8) | 0xFF; // RGBA format
         }
 
         // Update the texture with the random pixel data
